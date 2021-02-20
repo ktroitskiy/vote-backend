@@ -11,6 +11,20 @@ generator client {
   binaryTargets = ["native"]
 }
 
-model Migration {
-  name String @unique
+model Vote {
+  id String @id @default(uuid())
+  name String
+  variants VoteVariant[]
+
+  @@map(name: "vote")
+}
+
+model VoteVariant {
+  id String @id @default(uuid())
+  voteId String @map("vote_id")
+  message String
+  voteNumber Int @map("vote_number")
+  vote Vote @relation(fields: [voteId], references: [id])
+
+  @@map(name: "vote_variant")
 }

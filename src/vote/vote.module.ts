@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { VoteService } from './vote.service';
 
-@Module({})
+@Module({
+  providers: [VoteService]
+})
 export class VoteModule {}
