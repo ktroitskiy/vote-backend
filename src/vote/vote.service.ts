@@ -17,12 +17,22 @@ export class VoteService {
   }
 
   async votes(params: GetAllVotesParams): Promise<VoteWithVatiants[]> {
-    return this.prisma.vote.findMany({
+    const findedVotes =  await this.prisma.vote.findMany({
       ...params,
       include: {
         variants: true
       }
     });
+
+    findedVotes.forEach((vote, index) => {
+      const count = vote.variants.reduce((prev, current) => {
+        return prev += current.voteNumber;
+      }, 0);
+
+      findedVotes[index].allVotesCount = count;
+    });
+
+    return findedVotes;
   }
 
   async createVote(data: Prisma.VoteCreateInput): Promise<Vote> {

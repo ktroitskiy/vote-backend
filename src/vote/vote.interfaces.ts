@@ -2,6 +2,7 @@ import { Vote, VoteVariant, Prisma } from '@prisma/client';
 import { GetAllParams } from 'src/types/getAllParams';
 
 export interface VoteWithVatiants extends Vote {
+  allVotesCount: number;
   variants: VoteVariant[];
 }
 

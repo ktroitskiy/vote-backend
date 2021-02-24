@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Post, Delete, Body } from '@nestjs/common';
 import { Vote, Prisma } from '@prisma/client';
-import { VoteWithVatiants } from './vote.interfaces';
+import { VoteWithVatiants, GetAllVotesParams } from './vote.interfaces';
 import { VoteService } from './vote.service';
 
 @Controller('vote')
@@ -8,8 +8,8 @@ export class VoteController {
   constructor(private voteService: VoteService) {}
 
   @Get()
-  async findAllVotes(): Promise<VoteWithVatiants[]> {
-    return this.voteService.votes({});
+  async findAllVotes(@Param() params: GetAllVotesParams): Promise<VoteWithVatiants[]> {
+    return this.voteService.votes(params);
   }
 
   @Get(':id')
@@ -19,7 +19,6 @@ export class VoteController {
 
   @Post()
   async createVote(@Body() data: Prisma.VoteCreateInput): Promise<Vote> {
-    console.log(data);
     return this.voteService.createVote(data);
   }
 
